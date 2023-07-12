@@ -18,11 +18,7 @@ app.use(cors());
 app.use("/posts", postRoutes);
 app.use("/user", userRouter);
 
-app.use(cors({
-  origin: [""],
-  methods: ['POST',"GET"],
-  credentials: true
-}))
+
 const CONNECTION_URL = process.env.CONNECTION_URL;
 const PORT = process.env.PORT;
 
