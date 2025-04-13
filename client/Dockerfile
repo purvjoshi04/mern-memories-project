@@ -1,17 +1,3 @@
-# FROM node:22.14.0-alpine
-
-# WORKDIR /app
-
-# COPY package*.json ./
-
-# RUN npm install --force
-
-# COPY . .
-
-# EXPOSE 3000
-
-# CMD ["npm", "start"]
-
 FROM  node:22.14.0-alpine AS builder
 
 WORKDIR /app
@@ -21,6 +7,8 @@ COPY package.json .
 RUN npm install --force
 
 COPY . .
+
+ENV NODE_OPTIONS=--openssl-legacy-provider
 
 RUN npm run build
 

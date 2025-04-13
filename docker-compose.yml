@@ -1,0 +1,44 @@
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: backend
+    ports:
+      - "3001:3001"
+    env_file: ./.env
+    environment:
+      - CONNECTION_URL=$CONNECTION_URL
+      - SECRET_SRT=$SECRET_SRT
+      - PORT=$PORT
+    depends_on:
+      - mongodb
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "80:80"
+    env_file: ./.env
+    environment:
+      - REACT_APP_API_URL=$REACT_APP_API_URL
+    depends_on:
+      - server
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb_server
+
+    env_file: ./.env
+    environment:
+      - CONNECTION_URL=$CONNECTION_URL
+    ports:
+      - "27017:27017"
+
+    volumes:
+      - ./../db_data:/data/db
+
+volumes: 
+  db_data:
